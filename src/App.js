@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Toggle from './Toggle';
 
 
@@ -8,13 +8,17 @@ const App = () => {
   // const [value, setValue] = useState(initialState);
   const [name, setName] = useState('');
 
+  useEffect(() => {
+    document.title = name;
+  });
+
   return (
     <div className="main-wrapper">
       <h1>React Hooks Starter</h1>
       <div>
+        <Toggle />
         <form onSubmit={(event) => {
           event.preventDefault();
-          formSubmit(name, setName);
         }}>
           <input
             type="text"
@@ -23,15 +27,10 @@ const App = () => {
           />
           <button type="submit">Submit</button>
         </form>
-        <Toggle />
       </div>
     </div>
   );
 };
 
-const formSubmit = (value, setValue) => {
-  console.log(`email sent to ${value} !`)
-  setValue('');
-}
 
 export default App;
