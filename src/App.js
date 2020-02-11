@@ -11,6 +11,19 @@ const App = () => {
   const [name, setName] = useTitleInput('')
   const ref = useRef();
 
+  const [dishes, setDishes] = useState([]);
+
+  const fetchDishes = async () => {
+    console.log('ran')
+    const res = await fetch('https://my-json-server.typicode.com/leveluptuts/fakeapi/dishes');
+    const dishes = await res.json();
+    setDishes(dishes)
+  }
+
+  useEffect(() => {
+    fetchDishes();
+  }, [name]);
+
   const reverseWord = word => {
     console.log('reverseWord called')
     return word.split('').reverse().join('');
@@ -42,6 +55,19 @@ const App = () => {
             />
             <button type="submit">Submit</button>
           </form>
+
+          {dishes.map(dish => (
+            <article key={dish.name} className="dish-card dish-card--withImage">
+              <h3>{dish.name}</h3>
+              <p>{dish.desc}</p>
+              <div className="ingredients">
+                {dish.ingredients.map(ingredient => (
+                  <span key={ingredient}>{ingredient}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+
         </div>
       </div>
     </UserContext.Provider >
