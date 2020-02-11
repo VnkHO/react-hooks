@@ -37,7 +37,7 @@ const App = () => {
   return (
     <UserContext.Provider
       value={{
-        user: false,
+        user: true,
       }}
     >
       <div className="main-wrapper" ref={ref}>
