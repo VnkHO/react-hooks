@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, createContext, useMemo } from 'react';
+import useAbortableFetch from 'use-abortable-fetch';
+
 import Toggle from './Toggle';
 import Counter from './hooks/Counter'
+
 
 import { useTitleInput } from './hooks/useTitleInput';
 
@@ -13,26 +16,19 @@ const App = () => {
 
   const [dishes, setDishes] = useState([]);
 
-  const fetchDishes = async () => {
-    console.log('ran')
-    const res = await fetch('https://my-json-server.typicode.com/leveluptuts/fakeapi/dishes');
-    const dishes = await res.json();
-    setDishes(dishes)
-  }
+  const { data, loading } = useAbortableFetch('https://my-json-server.typicode.com/leveluptuts/fakeapi/dishes')
 
-  useEffect(() => {
-    fetchDishes();
-  }, [name]);
+  if (!data) return null;
 
-  const reverseWord = word => {
-    console.log('reverseWord called')
-    return word.split('').reverse().join('');
-  }
+  // const reverseWord = word => {
+  //   console.log('reverseWord called')
+  //   return word.split('').reverse().join('');
+  // }
 
-  const title = 'React Hooks Starter'
+  // const title = 'React Hooks Starter'
 
-  // const TitleReversed = useMemo(() => reverseWord(name), [name]);
-  const TitleReversed = useMemo(() => reverseWord(title), [title]);
+  // // const TitleReversed = useMemo(() => reverseWord(name), [name]);
+  // const TitleReversed = useMemo(() => reverseWord(title), [title]);
 
   return (
     <UserContext.Provider
@@ -41,7 +37,7 @@ const App = () => {
       }}
     >
       <div className="main-wrapper" ref={ref}>
-        <h1 onClick={() => ref.current.classList.add('new-fake-class')}>{TitleReversed}</h1>
+        <h1 onClick={() => ref.current.classList.add('new-fake-class')}>React Hooks Starter</h1>
         <div>
           <Toggle />
           <Counter />
@@ -56,7 +52,7 @@ const App = () => {
             <button type="submit">Submit</button>
           </form>
 
-          {dishes.map(dish => (
+          {data.map(dish => (
             <article key={dish.name} className="dish-card dish-card--withImage">
               <h3>{dish.name}</h3>
               <p>{dish.desc}</p>
