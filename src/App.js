@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, createContext, useMemo } from 'react';
 import useAbortableFetch from 'use-abortable-fetch';
 
+import { useSpring, animated } from 'react-spring';
+
 import Toggle from './Toggle';
 import Counter from './hooks/Counter'
 
@@ -18,7 +20,13 @@ const App = () => {
 
   const { data, loading } = useAbortableFetch('https://my-json-server.typicode.com/leveluptuts/fakeapi/dishes')
 
-  if (!data) return null;
+  const props = useSpring({
+    opacity: 1,
+    from: { opacity: 0 }
+  });
+  console.log(props)
+
+  // if (!data) return null;
 
   // const reverseWord = word => {
   //   console.log('reverseWord called')
@@ -37,7 +45,7 @@ const App = () => {
       }}
     >
       <div className="main-wrapper" ref={ref}>
-        <h1 onClick={() => ref.current.classList.add('new-fake-class')}>React Hooks Starter</h1>
+        <animated.h1 style={props} onClick={() => ref.current.classList.add('new-fake-class')}>React Hooks Starter</animated.h1>
         <div>
           <Toggle />
           <Counter />
@@ -52,7 +60,7 @@ const App = () => {
             <button type="submit">Submit</button>
           </form>
 
-          {data.map(dish => (
+          {data && data.map(dish => (
             <article key={dish.name} className="dish-card dish-card--withImage">
               <h3>{dish.name}</h3>
               <p>{dish.desc}</p>
