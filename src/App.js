@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Toggle from './Toggle';
+
 
 const App = () => {
 
@@ -14,6 +16,7 @@ const App = () => {
       <div>
         <h3>{name}</h3>
         <input type="text" onChange={(event) => setName(event.target.value)} value={name} />
+        <Toggle />
       </div>
     </div>
   );
