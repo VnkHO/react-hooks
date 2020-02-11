@@ -6,8 +6,6 @@ const Toggle = () => {
     const [isToggle, setToggle] = useState(false)
     const useInfo = useContext(UserContext);
 
-    console.log('useInfo :', useInfo)
-
     if (!useInfo.user) return null
 
     return (
